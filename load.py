@@ -4,28 +4,44 @@ import wmi
 
 from models import constants
 from models.clientconnect import ClientConnect
+from models.logontimings import LogonTimings
 from models.session import Session
 from models.clientstartup import ClientStartup
+from registry import create_citrix_session, delete_citrix_session
 
 
 def create_full_session():
     client_connect = ClientConnect.generate_random_client()
     session = Session.generate_random_session(client_connect)
     client_startup = ClientStartup.generate_random_client_startup(client_connect)
+    logon_timings = LogonTimings(session)
 
+    # Add the session details to the registry
+    create_citrix_session(session.session_id,
+                          client_connect.ip,
+                          session.client_name,
+                          session.session_key,
+                          session.published_name,
+                          client_connect.username
+                          )
+
+    # order is VERY important
+    logon_timings.send()
     client_connect.send()
     session.send()
     client_startup.send()
 
-    time.sleep(1)
+    time.sleep(60)
 
+    delete_citrix_session(session.session_id)
     session.delete()
 
 
 def delete_all():
     namespaces = {
-        "root\citrix\euem": ["Citrix_Euem_ClientConnect", "Citrix_Euem_RoundTrip", "Citrix_Euem_ClientStartup"],
-        "root\citrix\hdx": ["Citrix_Sessions"],
+        r"root\citrix\euem": ["Citrix_Euem_ClientConnect", "Citrix_Euem_RoundTrip", "Citrix_Euem_ClientStartup"],
+        r"root\citrix\hdx": ["Citrix_Sessions"],
+        r"root\citrix\profiles\Metrics": ["LogonTimings"],
     }
     for namespace, classes in namespaces.items():
         try:
@@ -229,9 +245,7 @@ def create_namespaces():
 def main():
     delete_all()
     create_namespaces()
-    while True:
-        create_full_session()
-        time.sleep(10)
+    create_full_session()
 
 
 if __name__ == "__main__":

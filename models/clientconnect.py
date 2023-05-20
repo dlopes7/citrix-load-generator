@@ -4,6 +4,8 @@ from datetime import datetime
 import uuid
 import time
 
+from models.constants import WMI_DATE_FORMAT
+
 
 class ClientConnect:
     def __init__(self):
@@ -53,8 +55,7 @@ class ClientConnect:
         c.passthrough_client_session_id = 0
         c.passthrough_client_session_timestamp = 0
         c.session_id = random.randint(1, 9000)
-        # 2006 01 02 15 04 05 . 000000
-        # c.timestamp = datetime.now().strftime("%Y%m%d%H%M%S.000000")
+        c.timestamp = datetime.now().strftime(WMI_DATE_FORMAT)
 
         return c
 

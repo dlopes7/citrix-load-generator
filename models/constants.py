@@ -14,3 +14,6 @@ wbemCimtypeUint64 = 21
 wbemCimtypeDateTime = 101
 wbemCimtypeReference = 102
 wbemCimtypeChar16 = 103
+
+# yyyymmddHHMMSS.mmmmmmsUUU
+WMI_DATE_FORMAT = "%Y%m%d%H%M%S.%f%z+000"
