@@ -103,7 +103,6 @@ class LogonTimings:
         logon_timings_instance = logon_timings_class.SpawnInstance_()
         logon_timings_instance.SessionId = self.session_id
 
-        print(self.desktop_ready.strftime(WMI_DATE_FORMAT))
         logon_timings_instance.DesktopReady = self.desktop_ready.strftime(WMI_DATE_FORMAT)
         logon_timings_instance.GroupPolicyComplete = self.group_policy_complete.strftime(WMI_DATE_FORMAT)
         logon_timings_instance.GroupPolicyStart = self.group_policy_start.strftime(WMI_DATE_FORMAT)

@@ -32,10 +32,11 @@ def create_full_session():
     client_connect.send()
     session.send()
     client_startup.send()
-    time.sleep(1)
+    time.sleep(5)
     Roundtrip(session).send()
     time.sleep(5)
-
+    Roundtrip(session).send()
+    time.sleep(5)
     delete_registry_citrix_session(session.session_id)
     session.delete()
     # client_connect.delete()
@@ -43,6 +44,7 @@ def create_full_session():
 
 
 def delete_all():
+    print("------ Deleting all WMI instances ------")
     namespaces = {
         r"root\citrix\euem": ["Citrix_Euem_ClientConnect", "Citrix_Euem_RoundTrip", "Citrix_Euem_ClientStartup"],
         r"root\citrix\hdx": ["Citrix_Sessions"],
@@ -62,6 +64,7 @@ def delete_all():
 
 
 def create_namespaces():
+    print("------ Creating WMI Namespaces and Classes ------")
     import win32com
 
     # Need to do this to get root
@@ -245,6 +248,9 @@ def create_namespaces():
     cls.Properties_.add("UserInitComplete", constants.wbemCimtypeDateTime)
     cls.Properties_.add("UserInitStart", constants.wbemCimtypeDateTime)
     cls.Put_()
+
+    print("------ Finished ------")
+
 
 
 def main():
