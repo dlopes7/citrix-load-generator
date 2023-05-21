@@ -9,7 +9,7 @@ from models.logontimings import LogonTimings
 from models.roundtrip import Roundtrip
 from models.session import Session
 from models.clientstartup import ClientStartup
-from registry import create_citrix_session, delete_citrix_session
+from registry import create_registry_citrix_session, delete_registry_citrix_session
 
 
 def create_full_session():
@@ -19,13 +19,13 @@ def create_full_session():
     logon_timings = LogonTimings(session)
 
     # Add the session details to the registry
-    create_citrix_session(session.session_id,
-                          client_connect.ip,
-                          session.client_name,
-                          session.session_key,
-                          session.published_name,
-                          client_connect.username
-                          )
+    create_registry_citrix_session(session.session_id,
+                                   client_connect.ip,
+                                   session.client_name,
+                                   session.session_key,
+                                   session.published_name,
+                                   client_connect.username
+                                   )
 
     # order is VERY important
     logon_timings.send()
@@ -36,7 +36,7 @@ def create_full_session():
     Roundtrip(session).send()
     time.sleep(5)
 
-    delete_citrix_session(session.session_id)
+    delete_registry_citrix_session(session.session_id)
     session.delete()
     # client_connect.delete()
     logon_timings.delete()
@@ -256,6 +256,7 @@ def main():
     create_namespaces()
     for i in range(int(num_sessions)):
         create_full_session()
+
 
 if __name__ == "__main__":
     main()
