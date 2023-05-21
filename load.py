@@ -1,3 +1,4 @@
+import sys
 import time
 
 import wmi
@@ -5,6 +6,7 @@ import wmi
 from models import constants
 from models.clientconnect import ClientConnect
 from models.logontimings import LogonTimings
+from models.roundtrip import Roundtrip
 from models.session import Session
 from models.clientstartup import ClientStartup
 from registry import create_citrix_session, delete_citrix_session
@@ -30,11 +32,14 @@ def create_full_session():
     client_connect.send()
     session.send()
     client_startup.send()
-
-    time.sleep(60)
+    time.sleep(1)
+    Roundtrip(session).send()
+    time.sleep(5)
 
     delete_citrix_session(session.session_id)
     session.delete()
+    # client_connect.delete()
+    logon_timings.delete()
 
 
 def delete_all():
@@ -243,10 +248,14 @@ def create_namespaces():
 
 
 def main():
+    num_sessions = 1
+    if len(sys.argv) > 1:
+        num_sessions = sys.argv[1]
+    print(f"Creating {num_sessions} sessions")
     delete_all()
     create_namespaces()
-    create_full_session()
-
+    for i in range(int(num_sessions)):
+        create_full_session()
 
 if __name__ == "__main__":
     main()

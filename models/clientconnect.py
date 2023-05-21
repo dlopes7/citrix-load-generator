@@ -54,7 +54,7 @@ class ClientConnect:
         c.InstanceId = random.randint(1, 1000)
         c.passthrough_client_session_id = 0
         c.passthrough_client_session_timestamp = 0
-        c.session_id = random.randint(1, 9000)
+        c.session_id = random.randint(1, 5)
         c.timestamp = datetime.now().strftime(WMI_DATE_FORMAT)
 
         return c
