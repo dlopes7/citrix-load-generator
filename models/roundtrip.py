@@ -43,6 +43,7 @@
 """
 import random
 from datetime import datetime, timedelta
+from uuid import uuid4
 
 import wmi
 
@@ -75,8 +76,8 @@ class Roundtrip:
         roundtrip_class = self.namespace.Citrix_Euem_RoundTrip
         roundtrip_instance = roundtrip_class.SpawnInstance_()
         roundtrip_instance.SessionID = self.session_id
-        roundtrip_instance.ProcessId = "1234"
-        roundtrip_instance.InstanceId = "1234"
+        roundtrip_instance.ProcessId = f"{random.randint(1000, 2000)}"
+        roundtrip_instance.InstanceId = f"{uuid4()}"
         roundtrip_instance.Timestamp = self.timestamp.strftime(WMI_DATE_FORMAT)
         roundtrip_instance.RoundtripTime = self.roundtrip_time
         roundtrip_instance.InputBandwidthAvailable = self.input_bandwidth_available
@@ -93,5 +94,6 @@ class Roundtrip:
         print(f"Created Roundtrip: '{roundtrip_path.Path}'")
         self.wmi_instance = roundtrip_instance
 
-
-
+    def delete(self):
+        if self.wmi_instance:
+            self.wmi_instance.Delete_()
