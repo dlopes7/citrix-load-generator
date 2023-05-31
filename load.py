@@ -76,16 +76,15 @@ def create_full_session():
 
 
 def main():
-    num_sessions = 1
-    if len(sys.argv) > 1:
-        num_sessions = sys.argv[1]
-    print(f"Creating {num_sessions} sessions")
     delete_all()
     create_namespaces()
     create_vda_parameters()
-    for i in range(int(num_sessions)):
-        create_full_session()
-
+    while True:
+        try:
+            create_full_session()
+        except KeyboardInterrupt:
+            log.info("Exiting")
+            sys.exit(0)
 
 if __name__ == "__main__":
     main()

@@ -17,7 +17,7 @@ class ClientStartup:
         self.is_shared_session = False
         self.launch_type = random.choice(["WI", "RDP", "ICA"])
         self.timestamp = datetime.now()
-        self.wflca_timestamp = datetime.now()
+        self.wf_ica_timestamp = datetime.now()
         self.process_id = str(uuid4())
 
         self.aecd = random.randint(1, 2)
@@ -49,6 +49,8 @@ class ClientStartup:
         client_startup_instance.Timestamp = self.timestamp.strftime(WMI_DATE_FORMAT)
         client_startup_instance.InstanceID = self.instance_id
         client_startup_instance.ProcessID = self.process_id
+        client_startup_instance.ClientSendTimestamp = self.client_send_timestamp.strftime(WMI_DATE_FORMAT)
+        client_startup_instance.WfIcaTimestamp = self.wf_ica_timestamp.strftime(WMI_DATE_FORMAT)
         client_startup_instance.SCD = self.scd
         client_startup_instance.AECD = self.aecd
         client_startup_instance.COCD = self.cocd
