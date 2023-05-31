@@ -18,7 +18,13 @@ from models.logontimings import LogonTimings
 from models.roundtrip import Roundtrip
 from models.session import Session
 from models.clientstartup import ClientStartup
+from models.vdaparameters import VDAParameters
 from registry import create_registry_citrix_session, delete_registry_citrix_session
+
+
+def create_vda_parameters():
+    vda_parameters = VDAParameters()
+    vda_parameters.send()
 
 
 def create_full_session():
@@ -48,7 +54,7 @@ def create_full_session():
 
     roundtrip_measurements = []
     measurements_quantity = random.randint(1, 5)
-    log.info(f"Creating {measurements_quantity} roundtrip measurements")
+    print(f"Creating {measurements_quantity} roundtrip measurements")
     for i in range(measurements_quantity):
         time.sleep(5)
         rt = Roundtrip(session)
@@ -76,6 +82,7 @@ def main():
     print(f"Creating {num_sessions} sessions")
     delete_all()
     create_namespaces()
+    create_vda_parameters()
     for i in range(int(num_sessions)):
         create_full_session()
 

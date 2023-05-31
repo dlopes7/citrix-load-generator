@@ -8,6 +8,7 @@ def delete_all():
         r"root\citrix\euem": ["Citrix_Euem_ClientConnect", "Citrix_Euem_RoundTrip", "Citrix_Euem_ClientStartup"],
         r"root\citrix\hdx": ["Citrix_Sessions"],
         r"root\citrix\profiles\Metrics": ["LogonTimings"],
+        r"root\citrix\VdaParameters": ["CitrixVdaParameters"],
     }
     for namespace, classes in namespaces.items():
         try:
@@ -208,4 +209,16 @@ def create_namespaces():
     cls.Properties_.add("UserInitStart", constants.wbemCimtypeDateTime)
     cls.Put_()
 
+    print("Creating CitrixVdaParameters")
+    vda_params = wmi.GetObject("winmgmts:root\citrix\VdaParameters")
+    cls = vda_params.Get()
+    cls.Path_.Class = "CitrixVdaParameters"
+    cls.Properties_.add("Desktopid", constants.wbemCimtypeString)
+    cls.Properties_("Desktopid").Qualifiers_.add("key", True)
+    cls.Properties_.add("BrokerVersion", constants.wbemCimtypeString)
+    cls.Properties_.add("DesktopCatalogName", constants.wbemCimtypeString)
+    cls.Properties_.add("FarmName", constants.wbemCimtypeString)
+    cls.Properties_.add("DesktopGroupName", constants.wbemCimtypeString)
+
+    cls.Put_()
     print("------ Finished ------")

@@ -10,30 +10,30 @@ from models.constants import WMI_DATE_FORMAT
 
 class ClientStartup:
     def __init__(self, client: ClientConnect):
-
-        self.aecd = 0
+        self.session_id = client.session_id
         self.application_name = random.choice(["Notepad", "Firefox", "SAP", "VSCode"])
-        self.bucc = 0
-        self.cfdcd = 0
         self.client_send_timestamp = datetime.now()
-        self.cocd = 0
-        self.ifdcd = 0
         self.instance_id = str(uuid4())
         self.is_shared_session = False
         self.launch_type = random.choice(["WI", "RDP", "ICA"])
-        self.lpwd = 110
-        self.nrcd = 0
-        self.nrwd = 63
-        self.process_id = str(uuid4())
-        self.recd = 0
-        self.rewd = 0
-        self.sccd = 1970
-        self.scd = 0
-        self.session_id = client.session_id
-        self.slcd = 1
         self.timestamp = datetime.now()
-        self.trwd = 1
         self.wflca_timestamp = datetime.now()
+        self.process_id = str(uuid4())
+
+        self.aecd = random.randint(1, 2)
+        self.bucc = random.randint(3, 4)
+        self.cfdcd = random.randint(5, 6)
+        self.cocd = random.randint(7, 8)
+        self.ifdcd = random.randint(9, 10)
+        self.lpwd = random.randint(11, 12)
+        self.nrcd = random.randint(13, 14)
+        self.nrwd = random.randint(15, 16)
+        self.recd = random.randint(17, 18)
+        self.rewd = random.randint(19, 20)
+        self.sccd = random.randint(21, 22)
+        self.slcd = random.randint(23, 24)
+        self.trwd = random.randint(25, 26)
+        self.scd = random.randint(27, 28)
 
         self.namespace = wmi.WMI(namespace="root\citrix\euem")
 
