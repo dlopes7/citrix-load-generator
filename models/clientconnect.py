@@ -2,9 +2,7 @@ from uuid import uuid4
 
 import wmi
 import random
-from datetime import datetime
-import uuid
-import time
+from datetime import datetime, timedelta
 
 from models.constants import WMI_DATE_FORMAT
 
@@ -20,7 +18,7 @@ class ClientConnect:
         self.passthrough_client_session_id = 0
         self.passthrough_client_session_timestamp = 0
         self.session_id = random.randint(1, 5)
-        self.timestamp = datetime.now().strftime(WMI_DATE_FORMAT)
+        self.timestamp = datetime.now() - timedelta(hours=1)
 
         self.wmi_instance = None
 
@@ -39,7 +37,7 @@ class ClientConnect:
         client_connect_instance.EUEMVersion = self.euem_version
         client_connect_instance.PassthroughClientSessionId = self.passthrough_client_session_id
         client_connect_instance.PassthroughClientSessionTimestamp = self.passthrough_client_session_timestamp
-        client_connect_instance.Timestamp = self.timestamp
+        client_connect_instance.Timestamp = self.timestamp.strftime(WMI_DATE_FORMAT)
 
         client_connect_path = client_connect_instance.Put_()
         print(f"Created ClientConnect: '{client_connect_path.Path}'")

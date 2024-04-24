@@ -56,7 +56,7 @@ class Roundtrip:
     def __init__(self, session: Session):
         self.session_id = session.session_id
 
-        self.timestamp = datetime.now()
+        self.timestamp = datetime.now() - timedelta(hours=1)
         self.roundtrip_time = random.randint(80, 100)
         self.input_bandwidth_available = random.randint(200, 300)
         self.input_bandwidth_used = self.input_bandwidth_available * 0.3

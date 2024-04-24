@@ -32,9 +32,9 @@ def create_full_session():
     log.info("--- Session Start ---")
     client_connect = ClientConnect()
     session = Session.generate_random_session(client_connect)
-    client_startup = ClientStartup(client_connect)
-    logon_timings = LogonTimings(session)
-    server_startup = ServerStartup(session)
+    # client_startup = ClientStartup(client_connect)
+    # logon_timings = LogonTimings(session)
+    # server_startup = ServerStartup(session)
 
     # Add the session details to the registry
     create_registry_citrix_session(session.session_id,
@@ -46,11 +46,11 @@ def create_full_session():
                                    )
 
     # order is VERY important
-    logon_timings.send()
-    client_connect.send()
-    server_startup.send()
+    # logon_timings.send()
+    # client_connect.send()
+    # server_startup.send()
     session.send()
-    client_startup.send()
+    # client_startup.send()
 
     roundtrip_measurements = []
     measurements_quantity = random.randint(1, 5)
@@ -64,10 +64,10 @@ def create_full_session():
     # Delete everything
     delete_registry_citrix_session(session.session_id)
     session.delete()
-    client_connect.delete()
-    client_startup.delete()
-    logon_timings.delete()
-    server_startup.delete()
+    # client_connect.delete()
+    # client_startup.delete()
+    # logon_timings.delete()
+    # server_startup.delete()
 
     for rt in roundtrip_measurements:
         rt.delete()
@@ -85,6 +85,7 @@ def main():
         except KeyboardInterrupt:
             log.info("Exiting")
             sys.exit(0)
+
 
 if __name__ == "__main__":
     main()
